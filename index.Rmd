@@ -8,3 +8,40 @@ output:
 ---
 
 This is my JSC370 Final Project website.
+
+```{r message = FALSE, warning=FALSE}
+
+source("process_starbucks_data.R")
+
+```
+
+## Showcasing plots {.tabset}
+
+### Figure 1
+
+```{r echo=FALSE}
+p1 <- ggplot(sb_locs_state, aes(x = population, y = n_stores)) +
+  geom_point() +
+  labs(x = "Population", y = "Number of Starbucks") +
+  ggtitle("Number of Starbucks Against Population by State")
+
+ggplotly(p1)
+```
+
+### Figure 2
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+library(data.table)
+setDT(sb_nutr)
+drinks <- sb_nutr[Category == "Drinks"]
+food <- sb_nutr[Category == "Food"]
+hist <- ggplot(sb_nutr, aes(x = Calories, fill = Category)) +
+  geom_histogram(data = drinks, bins = 20, alpha = 0.5, color = "black") +
+  geom_histogram(data = food, bins = 20, alpha = 0.5, color = "black") +
+  labs(x = "Calories", y = "Frequency", title = "Caloric Distributions of Food and Drinks") +
+  scale_fill_manual(values = c("red", "green"), labels = c("Drinks", "Food"))
+
+ggplotly(hist)
+```
+
+{-}
